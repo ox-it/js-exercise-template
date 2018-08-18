@@ -1,12 +1,15 @@
-// import React from 'react';
 require('../public/stylesheets/style0.css');
+import Vue from 'vue';
+    
+var app = document.getElementById('vue');
+var appElement = document.createElement('div');
+appElement.id = 'vue-id';
+appElement.innerHTML = '<p>{{ message }}</p>';
+app.appendChild(appElement);
 
-var app = document.getElementById('app2');
-if(!app) {
-    //create if needed
-    var body = document.getElementsByTagName('body')[0];
-    var appElement = document.createElement('div');
-    appElement.id = 'app2'
-    appElement.innerHTML = 'wellcome !!!';
-    body.appendChild(appElement);
-}
+new Vue({
+  el: '#vue',
+  data: {
+    message: 'Hello Vue.js!'
+  }
+})

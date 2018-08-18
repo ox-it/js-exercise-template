@@ -1,4 +1,6 @@
-// import React from 'react';
+import React from 'react';
+import ReactDOM from 'react-dom';
+
 require('../public/stylesheets/style0.css');
 
 var app = document.getElementById('app2');
@@ -10,3 +12,8 @@ if(!app) {
     appElement.innerHTML = 'wellcome !!!';
     body.appendChild(appElement);
 }
+
+ReactDOM.render(
+  <h1>Hello, world!</h1>,
+  document.getElementById('app')
+);

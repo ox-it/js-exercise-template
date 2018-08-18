@@ -1,0 +1,22 @@
+body {
+  margin: 0px;
+  padding: 0px;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+a {
+  color: #00B7FF;
+}
+
+.edit-heading-text {
+    background: green;
+    text-align: center;
+}
+
+.locationHeader {
+    background: green;
+}
+
+.locationHeader > div  {
+    flex-grow:1;
+}

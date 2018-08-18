@@ -6,6 +6,7 @@
     "dev": "nodemon --config nodemon.config.json --inspect ./src/bin/www"
   },
   "dependencies": {
+    "angular": "^1.7.3",
     "body-parser": "^1.16.1",
     "cookie-parser": "~1.4.3",
     "debug": "~2.6.0",

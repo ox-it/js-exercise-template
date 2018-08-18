@@ -2,25 +2,10 @@
 
 {% block javascripts %}
     {{ parent() }}
-    <script>
-        {% if user is defined %}
-            window.user = {
-                id: "{{user._id}}",
-                name: "{{user.name}}",
-                isAdmin: {{user.isAdmin}},
-                status: "{{user.status}}",
-            };
-        {% else %}
-            window.user = null;
-        {% endif %}
-        
-        {% if is_dev %}
-            window.DEV_ENV = true;
-        {% endif %}
-    </script>
     <script src="/build/app_bundled.js"></script>
 {% endblock %}
 
 {% block body %}
+    <div id="test">test1</div>
     <div id="app"></div>
 {% endblock %}

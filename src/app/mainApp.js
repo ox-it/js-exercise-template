@@ -1,4 +1,5 @@
 // import React from 'react';
+require('../public/stylesheets/style0.css');
 
 var app = document.getElementById('app2');
 if(!app) {

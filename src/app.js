@@ -5,10 +5,6 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
-var passport = require('passport');
-var LocalStrategy = require('passport-local').Strategy;
-// var GoogleStrategy = require('passport-google-oauth2').Strategy;
-// var WindowsLiveStrategy = require('passport-windowslive').Strategy;
 var session = require('express-session');
 var MongoStore = require('connect-mongo')(session);
 var slashes = require('connect-slashes');
@@ -17,7 +13,6 @@ var oauthIds = require('./oauth.js');
 mongoose.Promise = global.Promise;
 
 var index = require('./routes/index');
-var api = require('./routes/api/api');
 
 var app = express();
 
@@ -74,8 +69,6 @@ app.use(session({
     saveUninitialized: false,
     store: new MongoStore({ mongooseConnection: mongoose.connection })
 }));
-app.use(passport.initialize());
-app.use(passport.session());
 // app.use(require('node-compass')({mode: 'expanded'}));
 let staticpath = path.join(__dirname, 'public')
 
@@ -88,81 +81,8 @@ if(isRelease) {
 
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/api', api);
 app.use('/', index);
 
-//passport
-var Account = require('./models/account');
-passport.use(new LocalStrategy(Account.authenticate()));
-
-//for google oauth
-passport.serializeUser(function (user, done) {
-    done(null, user.id);
-});
-
-passport.deserializeUser(function (id, done) {
-    Account.findById(id, function (err, user) {
-        if(err) {
-            done(err, null);
-        } else {
-            done(null, user);
-        }
-    });
-});
-
-let googleConfig = null;
-switch (process.env.NODE_ENV) {
-    case 'production':
-        googleConfig = oauthIds.google.prod;
-        break;
-    case 'dev':
-        googleConfig = oauthIds.google.dev;
-        break;
-    default:
-        googleConfig = oauthIds.google.local;
-        
-}
-
-var onAuthenticated = function (request, accessToken, refreshToken, profile, done) {
-    Account.findOne({ oauthID: profile.id }, function (err, user) {
-        if(err) {
-            console.log(err);
-            done(err, null);
-        }
-        if(!err && user !== null) {
-            done(null, user);
-        } else {
-            //create user
-            var email = profile.emails.find((email) => { return email.type === 'account'; });
-            if(email == null) { console.log('unable to find email for user');}
-            var user = new Account({
-                oauthID: profile.id,
-                email: email.value,
-                name: profile.displayName,
-                isAdmin: false,
-                created: Date.now()
-            });
-            user.save(function (err) {
-                if(err) {
-                    console.log(err);
-                    done(err, user);
-                } else {
-                    console.log('saving user');
-                    done(null, user);
-                }
-            });
-        }
-    });
-}
-
-// uncomment to use google authentication
-// passport.use(new GoogleStrategy({
-//         clientID: googleConfig.clientId,
-//         clientSecret: googleConfig.clientSecret,
-//         callbackURL: googleConfig.callbackURL,
-//         passReqToCallback: true
-//     }, onAuthenticated
-// ));
 
 let windowsConfig = null;
 switch (process.env.NODE_ENV) {
@@ -176,39 +96,6 @@ switch (process.env.NODE_ENV) {
         windowsConfig = oauthIds.windows.local;
         
 }
-
-// uncomment to use windows live authentication
-// passport.use(new WindowsLiveStrategy({
-//         clientID: windowsConfig.applicationId,
-//         clientSecret: windowsConfig.password,
-//         callbackURL: windowsConfig.callbackURL,
-//         passReqToCallback: true
-//     },
-//     onAuthenticated
-// ));
-
-app.get('/auth/google', passport.authenticate('google', { scope: [
-    'https://www.googleapis.com/auth/plus.login',
-    'https://www.googleapis.com/auth/plus.profile.emails.read'
-]}));
-
-app.get('/auth/google/callback', passport.authenticate('google', { failureRedirect: '/' }),
-    function (req, res) {
-        res.redirect('/');
-    }
-);
-
-app.get('/auth/microsoft', passport.authenticate('windowslive', { scope: [
-    'wl.basic',
-    'wl.offline_access',    //not sure yet whether we need this scope
-    'wl.emails'
-]}));
-
-app.get('/auth/microsoft/callback', passport.authenticate('windowslive', { failureRedirect: '/' }),
-    function (req, res) {
-        res.redirect('/');
-    }
-)
 
 //mongoose
 mongoose.connect('mongodb://localhost/example');

@@ -16,7 +16,8 @@
     "node-sass-middleware": "0.9.8",
     "node-uuid": "^1.4.7",
     "serve-favicon": "~2.3.2",
-    "twig": "~0.10.3"
+    "twig": "~0.10.3",
+    "vue": "^2.5.17"
   },
   "devDependencies": {
     "babel-core": "^6.23.1",

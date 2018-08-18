@@ -24,7 +24,10 @@ var config = {
         filename: "[name]_bundled.js"
     },
     resolve: {
-        extensions: ['.js', '.json', '.jsx']
+        extensions: ['.js', '.json', '.jsx'],
+        alias: {
+            'vue': 'vue/dist/vue.common.js',
+        }
     },
     devServer: {
         inline: true

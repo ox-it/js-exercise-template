@@ -4,13 +4,7 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-var mongoose = require('mongoose');
 var session = require('express-session');
-var MongoStore = require('connect-mongo')(session);
-var slashes = require('connect-slashes');
-
-var oauthIds = require('./oauth.js');
-mongoose.Promise = global.Promise;
 
 var index = require('./routes/index');
 
@@ -44,17 +38,6 @@ if(!isRelease) {
     });
     app.use(logger('dev'));
 }
-if(true) {
-    //add mongo-express
-    var mongo_express = require('mongo-express/lib/middleware');
-    var mongo_express_config = require('./mongo_express_config');
-
-    app.use('/mongo_express', mongo_express(mongo_express_config))
-    //set up proxy for webpack assets
-    
-} else {
-    //production specific config here
-}
 
 // uncomment after placing your favicon in /public
 app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
@@ -66,8 +49,7 @@ app.use(session({
     secret: 'exampleapp',
     cookie:{maxAge:1000 * 60 * 60 * 24}, //last for a day
     resave: false,
-    saveUninitialized: false,
-    store: new MongoStore({ mongooseConnection: mongoose.connection })
+    saveUninitialized: false
 }));
 // app.use(require('node-compass')({mode: 'expanded'}));
 let staticpath = path.join(__dirname, 'public')
@@ -82,23 +64,6 @@ if(isRelease) {
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', index);
-
-
-let windowsConfig = null;
-switch (process.env.NODE_ENV) {
-    case 'production':
-        windowsConfig = oauthIds.windows.prod;
-        break;
-    case 'dev':
-        windowsConfig = oauthIds.windows.dev;
-        break;
-    default:
-        windowsConfig = oauthIds.windows.local;
-        
-}
-
-//mongoose
-mongoose.connect('mongodb://localhost/example');
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

@@ -6,6 +6,6 @@ if(!app) {
     var body = document.getElementsByTagName('body')[0];
     var appElement = document.createElement('div');
     appElement.id = 'app2'
-    appElement.innerHTML = 'wellcome !';
+    appElement.innerHTML = 'wellcome !!!';
     body.appendChild(appElement);
 }

@@ -3,16 +3,10 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node_modules/.bin/forever start ./src/bin/www",
-    "local": "node_modules/.bin/forever ./src/bin/www",
-    "dev": "nodemon --config nodemon.config.json --inspect ./src/bin/www",
-    "build": "node_modules/.bin/webpack --config src/webpack.config.prod.js",
-    "fixtures": "node ./src/fixtures"
+    "dev": "nodemon --config nodemon.config.json --inspect ./src/bin/www"
   },
   "dependencies": {
     "body-parser": "^1.16.1",
-    "bootstrap": "^3.3.7",
-    "connect-slashes": "^1.3.1",
     "cookie-parser": "~1.4.3",
     "debug": "~2.6.0",
     "express": "~4.14.1",
@@ -32,15 +26,11 @@
     "babel-preset-es2015": "^6.22.0",
     "babel-preset-react": "^6.23.0",
     "css-loader": "^0.26.1",
-    "deep-freeze": "0.0.1",
     "expect": "^1.20.2",
     "fetch-polyfill": "^0.8.2",
     "file-loader": "^1.1.11",
     "font-awesome": "^4.7.0",
     "http-proxy": "^1.16.2",
-    "jasmine-core": "^2.6.3",
-    "json-loader": "^0.5.4",
-    "karma-phantomjs-launcher": "^1.0.4",
     "node-compass": "^0.2.4",
     "nodemon": "^1.11.0",
     "style-loader": "^0.13.1",

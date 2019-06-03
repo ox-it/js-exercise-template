@@ -12,7 +12,7 @@
     "express": "^4.16.3",
     "express-session": "^1.15.1",
     "forever": "^0.15.3",
-    "morgan": "^1.9.0",
+    "morgan": "^1.9.1",
     "node-sass-middleware": "0.9.8",
     "node-uuid": "^1.4.7",
     "serve-favicon": "^2.5.0",
@@ -37,7 +37,7 @@
     "url-loader": "^1.1.1",
     "webpack": "^4.16.5",
     "webpack-cli": "^3.1.0",
-    "webpack-dev-server": "^3.1.5",
+    "webpack-dev-server": "^3.5.1",
     "webpack-hot-client": "^4.1.1"
   }
 }
